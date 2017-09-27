@@ -15,23 +15,19 @@ public class LinkedTransferQueueTest {
 		// method(queue);
 
 		Thread t1 = new Thread(() -> {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 500; i++) {
 //				new Thread(new Task(queue)).start();
-				try {
-					queue.transfer(getDomain());
-					System.out.println(queue.size());
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					queue.put(getDomain());
+					System.out.println("get"+queue.size());
 			}
 		});
 		Thread t2 = new Thread(() -> {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 500; i++) {
 //				new Thread(new TaskTake(queue)).start();
 				try {
 					Domain take = queue.take();
 					System.out.println(take);
+					System.out.println(queue.size());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -49,10 +45,7 @@ public class LinkedTransferQueueTest {
 		boolean add = queue.add(getDomain()); // xfer(e, true, ASYNC, 0);
 		boolean add2 = queue.add(getDomain());
 		boolean offer = queue.offer(getDomain()); // xfer(e, true, ASYNC, 0);
-		boolean offer2 = queue.offer(getDomain(), 1, TimeUnit.SECONDS); // xfer(e,
-																		// true,
-																		// ASYNC,
-																		// 0);
+		boolean offer2 = queue.offer(getDomain(), 1, TimeUnit.SECONDS); // xfer(e, true, ASYNC, 0);
 		queue.put(getDomain()); // xfer(e, true, ASYNC, 0);
 
 		System.out.println("===============获取等待消费队列大小==========================");
